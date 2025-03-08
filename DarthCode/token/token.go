@@ -1,6 +1,8 @@
+// token/token.go
+
 package token
 
-type TokenType int
+type TokenType string
 
 type Token struct {
 	Type    TokenType
@@ -8,70 +10,65 @@ type Token struct {
 }
 
 const (
-	// Special Tokens
-	ILLEGAL TokenType = iota
-	EOF
+	// Special tokens
+	ILLEGAL TokenType = "ILLEGAL"
+	EOF     TokenType = "EOF"
 
 	// Identifiers & Literals
-	IDENT
-	INT
+	IDENT TokenType = "IDENT"
+	INT   TokenType = "INT"
 
 	// Operators
-	PLUS
-	ASSIGN
-	MINUS
-	BANG
-	ASTERISK
-	SLASH
+	PLUS     TokenType = "+"
+	ASSIGN   TokenType = "="
+	MINUS    TokenType = "-"
+	BANG     TokenType = "!"
+	ASTERISK TokenType = "*"
+	SLASH    TokenType = "/"
 
-	LT
-	GT
-	LTE
-	GTE
+	LT  TokenType = "<"
+	GT  TokenType = ">"
+	LTE TokenType = "<="
+	GTE TokenType = ">="
 
-	EQ
-	NOT_EQ
+	EQ     TokenType = "=="
+	NOT_EQ TokenType = "!="
 
 	// Delimiters
-	COMMA
-	SEMICOLON
-	LPAREN
-	RPAREN
-	LBRACE
-	RBRACE
+	COMMA     TokenType = ","
+	SEMICOLON TokenType = ";"
+
+	LPAREN TokenType = "("
+	RPAREN TokenType = ")"
+	LBRACE TokenType = "{"
+	RBRACE TokenType = "}"
 
 	// Keywords
-	FUNCTION
-	LET
-	TRUE
-	FALSE
-	IF
-	ELSE
-	RETURN
+	FUNCTION TokenType = "FUNCTION"
+	LET      TokenType = "LET"
+	TRUE     TokenType = "TRUE"
+	FALSE    TokenType = "FALSE"
+	IF       TokenType = "IF"
+	ELSE     TokenType = "ELSE"
+	RETURN   TokenType = "RETURN"
 )
 
-// Mapping for quick keyword lookup
-var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
-	"true":   TRUE,
-	"false":  FALSE,
-	"if":     IF,
-	"else":   ELSE,
-	"return": RETURN,
+// keywords is a map for keyword lookups.
+var keywords = make(map[string]TokenType, 7)
+
+func init() {
+	keywords["fn"] = FUNCTION
+	keywords["let"] = LET
+	keywords["true"] = TRUE
+	keywords["false"] = FALSE
+	keywords["if"] = IF
+	keywords["else"] = ELSE
+	keywords["return"] = RETURN
 }
 
-// Lookup table for single-character tokens
-var charTokens = map[byte]TokenType{
-	'+': PLUS, '-': MINUS, '*': ASTERISK, '/': SLASH,
-	'<': LT, '>': GT, '=': ASSIGN, '!': BANG,
-	',': COMMA, ';': SEMICOLON, '(': LPAREN, ')': RPAREN,
-	'{': LBRACE, '}': RBRACE,
-}
-
-// LookupIdent checks if an identifier is a keyword, otherwise returns IDENT
+// LookupIdent checks if an identifier is a keyword or a user-defined name.
 func LookupIdent(ident string) TokenType {
-	if tok, found := keywords[ident]; found {
+	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
 	return IDENT
