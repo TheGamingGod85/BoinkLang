@@ -2,7 +2,7 @@
 
 package lexer
 
-import "DarthCode/token"
+import "BoinkLang/token"
 
 type Lexer struct {
 	input        string
