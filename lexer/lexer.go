@@ -34,14 +34,14 @@ func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
 	l.skipWhitespace()
+	l.skipComments() // Ignore comments instead of returning them
 
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.EQ, Literal: literal}
+			tok = token.Token{Type: token.EQ, Literal: string(ch) + string(l.ch)}
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
@@ -53,23 +53,12 @@ func (l *Lexer) NextToken() token.Token {
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.NOT_EQ, Literal: literal}
+			tok = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(l.ch)}
 		} else {
 			tok = newToken(token.BANG, l.ch)
 		}
 	case '/':
-		if l.peekChar() == '/' {
-			l.readChar()
-			l.readChar()
-			return token.Token{Type: token.COMMENT, Literal: l.readSingleLineComment()}
-		} else if l.peekChar() == '*' {
-			l.readChar()
-			l.readChar()
-			return token.Token{Type: token.COMMENT, Literal: l.readMultiLineComment()}
-		} else {
-			tok = newToken(token.SLASH, l.ch)
-		}
+		tok = newToken(token.SLASH, l.ch)
 	case '*':
 		tok = newToken(token.ASTERISK, l.ch)
 	case '<':
@@ -134,6 +123,35 @@ func (l *Lexer) skipWhitespace() {
 	}
 }
 
+// skipComments ignores single-line (`// ...`) and multi-line (`/* ... */`) comments.
+func (l *Lexer) skipComments() {
+	// Skip single-line comments (// ...)
+	for l.ch == '/' && l.peekChar() == '/' {
+		for l.ch != '\n' && l.ch != 0 {
+			l.readChar()
+		}
+		l.readChar() // Move past '\n'
+		l.skipWhitespace()
+	}
+
+	// Skip multi-line comments (/* ... */)
+	for l.ch == '/' && l.peekChar() == '*' {
+		l.readChar() // Skip '/'
+		l.readChar() // Skip '*'
+
+		for !(l.ch == '*' && l.peekChar() == '/') {
+			if l.ch == 0 { // EOF reached before closing */
+				return
+			}
+			l.readChar()
+		}
+
+		l.readChar() // Skip '*'
+		l.readChar() // Skip '/'
+		l.skipWhitespace()
+	}
+}
+
 // readNumber reads a numeric sequence and advances the lexer until a non-digit is encountered.
 func (l *Lexer) readNumber() string {
 	position := l.position
@@ -155,30 +173,4 @@ func (l *Lexer) peekChar() byte {
 	} else {
 		return l.input[l.readPosition]
 	}
-}
-
-// readSingleLineComment reads characters until a newline is encountered.
-func (l *Lexer) readSingleLineComment() string {
-	position := l.position
-	for l.ch != '\n' && l.ch != 0 {
-		l.readChar()
-	}
-	return l.input[position:l.position]
-}
-
-// readMultiLineComment reads until '*/' is encountered.
-func (l *Lexer) readMultiLineComment() string {
-	position := l.position
-	for {
-		l.readChar()
-		if l.ch == '*' && l.peekChar() == '/' {
-			l.readChar()
-			l.readChar()
-			break
-		}
-		if l.ch == 0 {
-			break
-		}
-	}
-	return l.input[position : l.position-2]
 }
