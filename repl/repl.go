@@ -10,8 +10,10 @@ import (
 	"io"
 )
 
+// PROMPT defines the REPL prompt symbol.
 const PROMPT = ">>"
 
+// Start initializes the Read-Eval-Print Loop (REPL) that reads input from the user, tokenizes it using the lexer, and prints the tokens to the output.
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 

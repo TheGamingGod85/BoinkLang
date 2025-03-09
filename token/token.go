@@ -2,8 +2,10 @@
 
 package token
 
+// TokenType represents the type of a token.
 type TokenType string
 
+// Token represents a lexical token with a type and literal value.
 type Token struct {
 	Type    TokenType
 	Literal string
@@ -51,11 +53,15 @@ const (
 	IF       TokenType = "IF"
 	ELSE     TokenType = "ELSE"
 	RETURN   TokenType = "RETURN"
+
+	// Comments
+	COMMENT TokenType = "COMMENT"
 )
 
 // keywords is a map for keyword lookups.
 var keywords = make(map[string]TokenType, 7)
 
+// init initializes the keyword map.
 func init() {
 	keywords["fn"] = FUNCTION
 	keywords["let"] = LET
