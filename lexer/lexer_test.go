@@ -4,6 +4,7 @@ package lexer
 
 import (
 	"BoinkLang/token"
+	"fmt"
 	"testing"
 )
 
@@ -13,8 +14,8 @@ func TestNextToken(t *testing.T) {
 	let add = fn(x, y) {
 		x + y;
 	};
-	let result = add(five, ten);
-	!-/*5;
+	let result = add(five, ten); // comment
+	!-/5;
 	5 < 10 > 5;
 	if (5 < 10) {
 		return true;
@@ -71,7 +72,6 @@ func TestNextToken(t *testing.T) {
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
 		{token.SLASH, "/"},
-		{token.ASTERISK, "*"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
 
@@ -118,15 +118,16 @@ func TestNextToken(t *testing.T) {
 
 	for i, tt := range tests {
 		tok := l.NextToken()
-
+		fmt.Printf("Token[%d]: Type=%q, Literal=%q\n", i, tok.Type, tok.Literal) // Debug print
+	
 		if tok.Type != tt.expectedType {
 			t.Errorf("tests[%d] - tokentype wrong. expected=%q, got=%q (literal=%q)",
 				i, tt.expectedType, tok.Type, tok.Literal)
 		}
-
 		if tok.Literal != tt.expectedLiteral {
 			t.Errorf("tests[%d] - literal wrong. expected=%q, got=%q (type=%q)",
 				i, tt.expectedLiteral, tok.Literal, tok.Type)
 		}
 	}
+	
 }

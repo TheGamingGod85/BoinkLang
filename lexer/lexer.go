@@ -125,32 +125,44 @@ func (l *Lexer) skipWhitespace() {
 
 // skipComments ignores single-line (`// ...`) and multi-line (`/* ... */`) comments.
 func (l *Lexer) skipComments() {
-	// Skip single-line comments (// ...)
-	for l.ch == '/' && l.peekChar() == '/' {
-		for l.ch != '\n' && l.ch != 0 {
-			l.readChar()
-		}
-		l.readChar() // Move past '\n'
-		l.skipWhitespace()
-	}
-
-	// Skip multi-line comments (/* ... */)
-	for l.ch == '/' && l.peekChar() == '*' {
-		l.readChar() // Skip '/'
-		l.readChar() // Skip '*'
-
-		for !(l.ch == '*' && l.peekChar() == '/') {
-			if l.ch == 0 { // EOF reached before closing */
-				return
+	for {
+		// Skip single-line comments (// ...)
+		if l.ch == '/' && l.peekChar() == '/' {
+			for l.ch != '\n' && l.ch != 0 {
+				l.readChar()
 			}
-			l.readChar()
+			l.readChar() // Move past '\n'
+			l.skipWhitespace()
+			continue
 		}
 
-		l.readChar() // Skip '*'
-		l.readChar() // Skip '/'
-		l.skipWhitespace()
+		// Skip multi-line comments (/* ... */)
+		if l.ch == '/' && l.peekChar() == '*' {
+			l.readChar() // Skip '/'
+			l.readChar() // Skip '*'
+			depth := 1 // Track nested comment depth
+
+			for depth > 0 {
+				if l.ch == 0 { // EOF reached before closing */
+					return
+				}
+				if l.ch == '/' && l.peekChar() == '*' {
+					depth++ // Start of nested comment
+					l.readChar()
+				} else if l.ch == '*' && l.peekChar() == '/' {
+					depth-- // End of a comment block
+					l.readChar()
+				}
+				l.readChar()
+			}
+			l.skipWhitespace()
+			continue
+		}
+
+		break
 	}
 }
+
 
 // readNumber reads a numeric sequence and advances the lexer until a non-digit is encountered.
 func (l *Lexer) readNumber() string {
