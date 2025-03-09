@@ -19,7 +19,7 @@ Go was chosen as the implementation language for BoinkLang due to its simplicity
   - Reads commands from standard input and processes them.  
 
 ### Planned Features:  
-- **Parser** – To analyze and construct the Abstract Syntax Tree (AST) from tokens.  
+- **Parser** – To analyze and construct the Abstract Syntax Tree (AST) from tokens (recursive descent parser).  
 - **Evaluator** – To execute parsed expressions and statements (because what’s the point of writing code if it doesn’t do anything?).  
 - **Variable Storage** – Implement a symbol table for storing and retrieving variables, because remembering values is too mainstream.  
 - **Function Calls** – Support defining and calling functions within BoinkLang, making it *almost* look like a real language.  
