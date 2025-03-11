@@ -197,3 +197,8 @@ func (l *Lexer) peekChar() byte {
 		return l.input[l.readPosition]
 	}
 }
+
+// Position returns the current position in the input.
+func (l *Lexer) Position() int {
+    return l.position
+}
