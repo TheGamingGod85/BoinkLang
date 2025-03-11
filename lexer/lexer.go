@@ -62,9 +62,21 @@ func (l *Lexer) NextToken() token.Token {
 	case '*':
 		tok = newToken(token.ASTERISK, l.ch)
 	case '<':
-		tok = newToken(token.LT, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{Type: token.LTE, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.LT, l.ch)
+		}
 	case '>':
-		tok = newToken(token.GT, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{Type: token.GTE, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.GT, l.ch)
+		}
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case ',':
@@ -140,7 +152,7 @@ func (l *Lexer) skipComments() {
 		if l.ch == '/' && l.peekChar() == '*' {
 			l.readChar() // Skip '/'
 			l.readChar() // Skip '*'
-			depth := 1 // Track nested comment depth
+			depth := 1   // Track nested comment depth
 
 			for depth > 0 {
 				if l.ch == 0 { // EOF reached before closing */
@@ -162,7 +174,6 @@ func (l *Lexer) skipComments() {
 		break
 	}
 }
-
 
 // readNumber reads a numeric sequence and advances the lexer until a non-digit is encountered.
 func (l *Lexer) readNumber() string {
