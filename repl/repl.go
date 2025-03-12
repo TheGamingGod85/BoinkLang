@@ -3,6 +3,7 @@
 package repl
 
 import (
+	"BoinkLang/evaluator"
 	"BoinkLang/lexer"
 	"BoinkLang/parser"
 	"BoinkLang/token"
@@ -56,6 +57,34 @@ func StartLexerMode(in io.Reader, out io.Writer) {
 
 		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
 			fmt.Fprintf(out, "%+v\n", tok)
+		}
+	}
+}
+
+// StartEvaluatorMode initializes the REPL in evaluator mode.
+func StartEvaluatorMode(in io.Reader, out io.Writer) {
+	scanner := bufio.NewScanner(in)
+
+	for {
+		fmt.Fprintf(out, PROMPT)
+		scanned := scanner.Scan()
+		if !scanned {
+			return
+		}
+
+		line := scanner.Text()
+		l := lexer.New(line)
+		p := parser.New(l)
+		program := p.ParseProgram()
+
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
+		}
+		evaluated := evaluator.Eval(program)
+		if evaluated != nil {
+			io.WriteString(out, evaluated.Inspect())
+			io.WriteString(out, "\n")
 		}
 	}
 }

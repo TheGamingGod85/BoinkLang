@@ -16,7 +16,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("Hello %s! This is the BoinkLang programming language!\n", user.Username)
-	fmt.Println("Choose mode: [rlpl] Lexer Mode | [rppl] Parser Mode")
+	fmt.Println("Choose mode: [rlpl] Lexer Mode | [rppl] Parser Mode | [repl] Evaluator Mode")
 
 	// Read mode selection
 	scanner := bufio.NewScanner(os.Stdin)
@@ -29,6 +29,8 @@ func main() {
 		repl.StartLexerMode(os.Stdin, os.Stdout)
 	case "rppl":
 		repl.StartParserMode(os.Stdin, os.Stdout)
+	case "repl":
+		repl.StartEvaluatorMode(os.Stdin, os.Stdout)
 	default:
 		fmt.Println("Invalid mode! Exiting.")
 		os.Exit(1)
