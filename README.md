@@ -2,8 +2,7 @@
 BoinkLang is a lightweight, interpreted programming language designed as a learning project to explore how interpreters function and to gain hands-on experience with Go. Or in simpler terms, I wanted to create a language where I could make the computer suffer through my poorly written code. By building BoinkLang, I aim to deepen my understanding of language processing, tokenization, and interpreter architecture while also reinforcing my Go skills—because debugging in Go wasn’t painful enough already.
 
 ## Why Choose Go?  
-
-Go was chosen as the implementation language for BoinkLang due to its simplicity, performance, and ability to make developers question their life choices. Here’s why:  
+Go was chosen as the implementation language for BoinkLang because I wanted to learn Go and figured what better way than to make an interpreter from scratch? Here’s why:  
 
 - **Ease of Use** – Go’s clean syntax makes it a great choice for interpreters, ensuring that the real complexity comes from my own coding mistakes.  
 - **Strong Standard Library** – Go provides robust built-in packages, saving me from reinventing the wheel (although I probably will, just for fun).  
@@ -17,15 +16,16 @@ Go was chosen as the implementation language for BoinkLang due to its simplicity
 - **Parser** – Constructs an Abstract Syntax Tree (AST) from tokens using Top-Down Operator Precedence (Vaughan Pratt Parsing). Now my code at least pretends to be structured.  
 - **Function Calls** – Yes, BoinkLang now supports functions, which means you can write spaghetti code with slightly more organization.  
 - **Control Flow** – Implements if-else conditions and comparison operators, ensuring that logic errors are now officially my fault.  
-- **REPL Mode (Revamped!)** – Upon startup, BoinkLang now politely asks if you want to:  
+- **Evaluator (Tree-Walk Interpreter)** – BoinkLang can now execute parsed expressions and statements, meaning my nonsense code actually runs (for better or worse).  
+- **Environment (Symbol Table)** – Uses a hashmap-based environment for variable storage, so now I can pretend to manage scope like a pro.  
+- **REPL Mode (Revamped Again!)** – Upon startup, BoinkLang now politely asks if you want to:  
   - Run **R-Lex-PL** (just lexing, because why not?)  
   - Run **R-Parse-PL** (lexing + parsing, for when you feel fancy).  
-  - I haven’t added a full evaluator yet, so execution is still a distant dream.  
+  - Run **R-Eval-PL** (full interpretation, so you can finally see the chaos in action).  
 
 ### Planned Features:  
-- **Evaluator** – To actually execute parsed expressions and statements (because what’s the point of writing code if it doesn’t do anything?).  
-- **Variable Storage (Symbol Table)** – While the AST currently holds parsed expressions, a proper symbol table will be needed for managing scope and variable resolution.  
 - **Loops** – Implementing while and for loops so BoinkLang can suffer through infinite iterations.  
+- **More Built-in Features** – Adding hashes, strings, arrays, and `len` as a built-in function, because BoinkLang deserves some basic utilities.  
 
 ## Installation & Usage  
 ### Prerequisites:  
@@ -40,7 +40,7 @@ cd BoinkLang
 ### Build & Run:  
 #### Starts BoinkLang with a choice of REPL mode  
 ```sh
-go run main.go
+go run boink.go
 ```
 
 Upon starting, BoinkLang will now let you choose between lexing or parsing before misunderstanding your commands spectacularly.
