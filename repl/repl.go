@@ -1,5 +1,3 @@
-// repl/repl.go
-
 package repl
 
 import (
@@ -88,6 +86,28 @@ func StartEvaluatorMode(in io.Reader, out io.Writer) {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
 		}
+	}
+}
+
+// RunFile executes BoinkLang code from a file
+func RunFile(input string) {
+	l := lexer.New(input)
+	p := parser.New(l)
+	program := p.ParseProgram()
+
+	if len(p.Errors()) > 0 {
+		fmt.Println("Parsing errors:")
+		for _, err := range p.Errors() {
+			fmt.Println("\t" + err)
+		}
+		return
+	}
+
+	// Evaluate the program
+	env := object.NewEnvironment()
+	result := evaluator.Eval(program, env)
+	if result != nil {
+		fmt.Println(result.Inspect())
 	}
 }
 

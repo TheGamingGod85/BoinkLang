@@ -1,0 +1,14 @@
+let five = 5;
+let ten = 10;
+let add = fn(x, y) {
+    x + y;
+};
+let result = add(five, ten);
+result;
+
+
+if (5 < 10) {
+    return true;  // Of course, 5 is less than 10. Duh.
+} else {
+    return false;  // This should never happen. If it does, blame floating-point precision.
+}
