@@ -5,6 +5,7 @@ package repl
 import (
 	"BoinkLang/lexer"
 	"BoinkLang/parser"
+	"BoinkLang/token"
 	"bufio"
 	"fmt"
 	"io"
@@ -13,8 +14,8 @@ import (
 // PROMPT defines the REPL prompt symbol.
 const PROMPT = ">> "
 
-// Start initializes the REPL, reads input, tokenizes it, parses it, and prints the output.
-func Start(in io.Reader, out io.Writer) {
+// StartParserMode initializes the REPL in parser mode.
+func StartParserMode(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
 	for {
@@ -36,6 +37,26 @@ func Start(in io.Reader, out io.Writer) {
 
 		io.WriteString(out, program.String()) // Print parsed program
 		io.WriteString(out, "\n")
+	}
+}
+
+// StartLexerMode initializes the REPL in lexer mode.
+func StartLexerMode(in io.Reader, out io.Writer) {
+	scanner := bufio.NewScanner(in)
+
+	for {
+		fmt.Fprintf(out, PROMPT)
+		scanned := scanner.Scan()
+		if !scanned {
+			return
+		}
+
+		line := scanner.Text()
+		l := lexer.New(line)
+
+		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
+			fmt.Fprintf(out, "%+v\n", tok)
+		}
 	}
 }
 
