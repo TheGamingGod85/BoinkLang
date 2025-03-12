@@ -2,7 +2,10 @@
 
 package lexer
 
-import "BoinkLang/token"
+import (
+	"BoinkLang/token"
+	"strings"
+)
 
 type Lexer struct {
 	input        string
@@ -89,6 +92,9 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -200,5 +206,57 @@ func (l *Lexer) peekChar() byte {
 
 // Position returns the current position in the input.
 func (l *Lexer) Position() int {
-    return l.position
+	return l.position
+}
+
+func (l *Lexer) readString() string {
+	position := l.position + 1
+	for {
+		l.readChar()
+
+		// End of string
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+
+		// Handle escape sequences
+		if l.ch == '\\' {
+			l.readChar() // Move to next character to check escape sequence
+		}
+	}
+
+	// Extract the raw string, then process escape sequences
+	raw := l.input[position:l.position]
+	return processEscapes(raw)
+}
+
+// processEscapes converts escape sequences into their actual characters
+func processEscapes(s string) string {
+	var result strings.Builder
+	i := 0
+
+	for i < len(s) {
+		if s[i] == '\\' && i+1 < len(s) {
+			switch s[i+1] {
+			case '"':
+				result.WriteByte('"')
+			case 'n':
+				result.WriteByte('\n')
+			case 't':
+				result.WriteByte('\t')
+			case '\\':
+				result.WriteByte('\\')
+			default:
+				// Unknown escape, keep both characters
+				result.WriteByte('\\')
+				result.WriteByte(s[i+1])
+			}
+			i += 2 // Skip the escape sequence
+		} else {
+			result.WriteByte(s[i])
+			i++
+		}
+	}
+
+	return result.String()
 }

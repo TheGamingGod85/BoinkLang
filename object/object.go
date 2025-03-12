@@ -18,6 +18,7 @@ const (
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	ERROR_OBJ        = "ERROR"
 	FUNCTION_OBJ     = "FUNCTION"
+	STRING_OBJ       = "STRING"
 )
 
 type Object interface {
@@ -69,7 +70,7 @@ func (f *Function) Inspect() string {
 	var out bytes.Buffer
 
 	params := []string{}
-	for _, p:=range f.Parameters {
+	for _, p := range f.Parameters {
 		params = append(params, p.String())
 	}
 
@@ -82,3 +83,10 @@ func (f *Function) Inspect() string {
 
 	return out.String()
 }
+
+type String struct {
+	Value string
+}
+
+func (s *String) Type() ObjectType { return STRING_OBJ }
+func (s *String) Inspect() string { return s.Value }
