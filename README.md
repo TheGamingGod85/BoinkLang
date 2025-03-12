@@ -14,15 +14,18 @@ Go was chosen as the implementation language for BoinkLang due to its simplicity
 ## Features  
 ### Implemented:  
 - **Tokenizer (Lexer)** – Converts BoinkLang code into tokens faster than you can say “syntax error.”  
-- **REPL Mode** – Allows interaction with BoinkLang by printing generated tokens in real time.  
-  - Greets the user upon startup (because it’s polite).  
-  - Reads commands from standard input and processes them.  
+- **Parser** – Constructs an Abstract Syntax Tree (AST) from tokens using Top-Down Operator Precedence (Vaughan Pratt Parsing). Now my code at least pretends to be structured.  
+- **Function Calls** – Yes, BoinkLang now supports functions, which means you can write spaghetti code with slightly more organization.  
+- **Control Flow** – Implements if-else conditions and comparison operators, ensuring that logic errors are now officially my fault.  
+- **REPL Mode (Revamped!)** – Upon startup, BoinkLang now politely asks if you want to:  
+  - Run **R-Lex-PL** (just lexing, because why not?)  
+  - Run **R-Parse-PL** (lexing + parsing, for when you feel fancy).  
+  - I haven’t added a full evaluator yet, so execution is still a distant dream.  
 
 ### Planned Features:  
-- **Parser** – To analyze and construct the Abstract Syntax Tree (AST) from tokens (recursive descent parser).  
-- **Evaluator** – To execute parsed expressions and statements (because what’s the point of writing code if it doesn’t do anything?).  
-- **Variable Storage** – Implement a symbol table for storing and retrieving variables, because remembering values is too mainstream.  
-- **Function Calls** – Support defining and calling functions within BoinkLang, making it *almost* look like a real language.  
+- **Evaluator** – To actually execute parsed expressions and statements (because what’s the point of writing code if it doesn’t do anything?).  
+- **Variable Storage (Symbol Table)** – While the AST currently holds parsed expressions, a proper symbol table will be needed for managing scope and variable resolution.  
+- **Loops** – Implementing while and for loops so BoinkLang can suffer through infinite iterations.  
 
 ## Installation & Usage  
 ### Prerequisites:  
@@ -35,12 +38,12 @@ cd BoinkLang
 ```
 
 ### Build & Run:  
-#### Currently Starts BoinkLang in REPL Mode  
+#### Starts BoinkLang with a choice of REPL mode  
 ```sh
 go run main.go
 ```
 
-Upon starting, BoinkLang will greet the user by name and allow typing in commands, which it will probably misunderstand spectacularly.
+Upon starting, BoinkLang will now let you choose between lexing or parsing before misunderstanding your commands spectacularly.
 
 ## Sample Code  
 Here’s some BoinkLang code. If it breaks, that’s a feature, not a bug.  
@@ -75,3 +78,4 @@ If you’d like to contribute, feel free to fork this repository and submit a pu
 
 ## License  
 This project is licensed under the MIT License – meaning you are free to use and modify it, but I take zero responsibility if it makes your computer cry.
+
