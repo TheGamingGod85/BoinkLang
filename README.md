@@ -78,13 +78,7 @@ if (5 < 10) {
 10 != 9;   // Big surprise.
 ```
 
-## References  
-- **Writing an Interpreter in Go** by Thorsten Ball – A great resource for understanding interpreter development. Also known as *The Book That Made Me Do This.*  
 
-<!--  
-## Contributing  
-If you’d like to contribute, feel free to fork this repository and submit a pull request. Feedback and improvements are always welcome! But no promises I’ll accept them—BoinkLang is already weird enough.  
--->
 
 ## License  
 This project is licensed under the MIT License – meaning you are free to use and modify it, but I take zero responsibility if it makes your computer cry.
