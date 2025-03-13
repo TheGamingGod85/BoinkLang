@@ -10,22 +10,32 @@ Go was chosen as the implementation language for BoinkLang because I wanted to l
 - **Efficient Performance** – Fast execution speed ensures that my terrible programs fail instantly, instead of making me wait.  
 - **Static Typing** – Helps catch errors at compile-time, but unfortunately, it doesn’t prevent bad life decisions.  
 
-## Features  
-### Implemented:  
-- **Tokenizer (Lexer)** – Converts BoinkLang code into tokens faster than you can say “syntax error.”  
-- **Parser** – Constructs an Abstract Syntax Tree (AST) from tokens using Top-Down Operator Precedence (Vaughan Pratt Parsing). Now my code at least pretends to be structured.  
-- **Function Calls** – Yes, BoinkLang now supports functions, which means you can write spaghetti code with slightly more organization.  
-- **Control Flow** – Implements if-else conditions and comparison operators, ensuring that logic errors are now officially my fault.  
-- **Evaluator (Tree-Walk Interpreter)** – BoinkLang can now execute parsed expressions and statements, meaning my nonsense code actually runs (for better or worse).  
-- **Environment (Symbol Table)** – Uses a hashmap-based environment for variable storage, so now I can pretend to manage scope like a pro.  
-- **REPL Mode (Revamped Again!)** – Upon startup, BoinkLang now politely asks if you want to:  
-  - Run **R-Lex-PL** (just lexing, because why not?)  
-  - Run **R-Parse-PL** (lexing + parsing, for when you feel fancy).  
-  - Run **R-Eval-PL** (full interpretation, so you can finally see the chaos in action).  
+## Features
 
-### Planned Features:  
-- **Loops** – Implementing while and for loops so BoinkLang can suffer through infinite iterations.  
-- **More Built-in Features** – Adding hashes, strings, arrays, and `len` as a built-in function, because BoinkLang deserves some basic utilities.  
+### Implemented:
+
+- **Tokenizer (Lexer)** – Converts BoinkLang code into tokens faster than you can say “syntax error.”
+- **Parser** – Constructs an Abstract Syntax Tree (AST) from tokens using Top-Down Operator Precedence (Vaughan Pratt Parsing). Now my code at least pretends to be structured.
+- **Function Calls** – Yes, BoinkLang now supports functions, which means you can write spaghetti code with slightly more organization.
+- **Control Flow** – Implements if-else conditions and comparison operators, ensuring that logic errors are now officially my fault.
+- **Evaluator (Tree-Walk Interpreter)** – BoinkLang can now execute parsed expressions and statements, meaning my nonsense code actually runs (for better or worse).
+- **Environment (Symbol Table)** – Uses a hashmap-based environment for variable storage, so now I can pretend to manage scope like a pro.
+- **Built-in Data Structures** – Added support for integers, booleans, strings, arrays, and hashes, so BoinkLang can now hold more than just my regrets.
+- **Operators** – Supports prefix-, infix-, and index operators, making mathematical suffering easier.
+- **Built-in Functions** – Includes `len`, `puts`, `push`, `rest`, `last`, and `first`, making BoinkLang slightly less painful to use.
+- **Closures & Bindings** – Supports global and local bindings, first-class functions, and return statements, proving that BoinkLang is more serious than it should be.
+- **REPL Mode (Revamped Again!)** – Upon startup, BoinkLang now politely asks if you want to:
+  - Run **R-Lex-PL** (just lexing, because why not?)
+  - Run **R-Parse-PL** (lexing + parsing, for when you feel fancy).
+  - Run **R-Eval-PL** (full interpretation, so you can finally see the chaos in action).
+
+### Planned Features:
+
+- **Loops** – Implementing while and for loops so BoinkLang can suffer through infinite iterations.
+- **Increment/Decrement Operators** – Adding `++` and `--` for those who enjoy one-liner chaos.
+- **Bytecode Compiler & Virtual Machine** – Turning our tree-walking and on-the-fly evaluating interpreter into a bytecode compiler and a virtual machine that executes the bytecode.
+
+ 
 
 ## Installation & Usage  
 ### Prerequisites:  

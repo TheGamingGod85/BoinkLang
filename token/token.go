@@ -38,6 +38,7 @@ const (
 
 	// Delimiters
 	COMMA     TokenType = ","
+	COLON     TokenType = ":"
 	SEMICOLON TokenType = ";"
 
 	LPAREN   TokenType = "("
