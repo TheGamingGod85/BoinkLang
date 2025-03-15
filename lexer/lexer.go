@@ -48,6 +48,8 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)
 		}
+	case '.':
+		tok = newToken(token.DOT, l.ch)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
 	case '-':
@@ -109,9 +111,14 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
-		} else if isDigit(l.ch) {
-			tok.Type = token.INT
-			tok.Literal = l.readNumber()
+		} else if isDigit(l.ch) || (l.ch == '.' && isDigit(l.peekChar())) {
+			num := l.readNumber()
+			if strings.Contains(num, ".") {
+				tok.Type = token.FLOAT
+			} else {
+				tok.Type = token.INT
+			}
+			tok.Literal = num
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -190,7 +197,12 @@ func (l *Lexer) skipComments() {
 // readNumber reads a numeric sequence and advances the lexer until a non-digit is encountered.
 func (l *Lexer) readNumber() string {
 	position := l.position
-	for isDigit(l.ch) {
+	hasDot := false
+
+	for isDigit(l.ch) || (l.ch == '.' && !hasDot) {
+		if l.ch == '.' {
+			hasDot = true
+		}
 		l.readChar()
 	}
 	return l.input[position:l.position]

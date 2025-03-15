@@ -19,6 +19,7 @@ const (
 	// Identifiers & Literals
 	IDENT TokenType = "IDENT"
 	INT   TokenType = "INT"
+	FLOAT TokenType = "FLOAT"
 
 	// Operators
 	PLUS     TokenType = "+"
@@ -40,6 +41,7 @@ const (
 	COMMA     TokenType = ","
 	COLON     TokenType = ":"
 	SEMICOLON TokenType = ";"
+	DOT       TokenType = "."
 
 	LPAREN   TokenType = "("
 	RPAREN   TokenType = ")"
@@ -49,7 +51,7 @@ const (
 	RBRACKET TokenType = "]"
 
 	// Keywords
-	FUNCTION TokenType = "FUNCTION"
+	FUNCTION TokenType = "FUNCTION"	
 	LET      TokenType = "LET"
 	TRUE     TokenType = "TRUE"
 	FALSE    TokenType = "FALSE"
