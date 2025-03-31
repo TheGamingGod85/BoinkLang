@@ -82,7 +82,9 @@ func StartEvaluatorMode(in io.Reader, out io.Writer) {
 			continue
 		}
 		evaluated := evaluator.Eval(program, env)
-		if evaluated != nil {
+
+		// Ignore NULL values in REPL output
+		if evaluated != nil && evaluated.Type() != object.NULL_OBJ {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
 		}
