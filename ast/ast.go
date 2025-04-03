@@ -326,3 +326,20 @@ func (hl *HashLiteral) String() string {
 	out.WriteString("}")
 	return out.String()
 }
+
+type AssignmentStatement struct {
+	Token token.Token
+	Name  *Identifier
+	Value Expression
+}
+
+func (as *AssignmentStatement) statementNode()       {}
+func (as *AssignmentStatement) TokenLiteral() string { return as.Token.Literal }
+func (as *AssignmentStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString(as.Name.String())
+	out.WriteString(" = ")
+	out.WriteString(as.Value.String())
+	out.WriteString(";")
+	return out.String()
+}

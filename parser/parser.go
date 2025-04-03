@@ -173,6 +173,12 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
 		return p.parseLetStatement()
+	case token.IDENT: // Handle "x = ..."
+		if p.peekTokenIs(token.ASSIGN) {
+			return p.parseAssignmentStatement()
+		}
+		return p.parseExpressionStatement()
+
 	case token.RETURN:
 		return p.parseReturnStatement()
 	default:
@@ -204,6 +210,26 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 
 	return stmt
 }
+
+func (p *Parser) parseAssignmentStatement() *ast.AssignmentStatement {
+	stmt := &ast.AssignmentStatement{Token: p.curToken}
+
+	if !p.expectPeek(token.ASSIGN) {
+		return nil
+	}
+
+	p.nextToken()
+
+	stmt.Name = &ast.Identifier{Token: stmt.Token, Value: stmt.Token.Literal}
+	stmt.Value = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
 
 // parseReturnStatement parses a return statement and returns an ast.ReturnStatement.
 func (p *Parser) parseReturnStatement() *ast.ReturnStatement {

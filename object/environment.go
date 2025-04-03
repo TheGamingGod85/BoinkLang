@@ -26,7 +26,11 @@ func(e *Environment) Get(name string) (Object, bool) {
 	return obj, ok
 }
 
-func(e *Environment) Set(name string, val Object) Object {
+func (e *Environment) Set(name string, val Object) Object {
+	if arr, ok := val.(*Array); ok {
+		e.store[name] = arr
+		return arr
+	}
 	e.store[name] = val
 	return val
 }
