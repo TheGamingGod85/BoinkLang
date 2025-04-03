@@ -173,12 +173,14 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
 		return p.parseLetStatement()
-	case token.IDENT: // Handle "x = ..."
+	case token.IDENT:
 		if p.peekTokenIs(token.ASSIGN) {
 			return p.parseAssignmentStatement()
 		}
+		if p.peekTokenIs(token.INCREMENT) || p.peekTokenIs(token.DECREMENT) {
+			return p.parseIncrementDecrementStatement()
+		}
 		return p.parseExpressionStatement()
-
 	case token.RETURN:
 		return p.parseReturnStatement()
 	default:
@@ -230,6 +232,24 @@ func (p *Parser) parseAssignmentStatement() *ast.AssignmentStatement {
 	return stmt
 }
 
+func (p *Parser) parseIncrementDecrementStatement() ast.Statement {
+	stmt := &ast.IncrementDecrementStatement{Token: p.curToken}
+
+	ident := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+	stmt.Name = ident
+
+	p.nextToken()
+
+	if p.curTokenIs(token.INCREMENT) {
+		stmt.Operator = "++"
+	} else if p.curTokenIs(token.DECREMENT) {
+		stmt.Operator = "--"
+	} else {
+		return nil
+	}
+
+	return stmt
+}
 
 // parseReturnStatement parses a return statement and returns an ast.ReturnStatement.
 func (p *Parser) parseReturnStatement() *ast.ReturnStatement {

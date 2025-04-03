@@ -343,3 +343,17 @@ func (as *AssignmentStatement) String() string {
 	out.WriteString(";")
 	return out.String()
 }
+
+type IncrementDecrementStatement struct {
+	Token    token.Token
+	Name     *Identifier
+	Operator string
+}
+func (ids *IncrementDecrementStatement) statementNode()       {}
+func (ids *IncrementDecrementStatement) TokenLiteral() string { return ids.Token.Literal }
+func (ids *IncrementDecrementStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString(ids.Name.String())
+	out.WriteString(ids.Operator)
+	return out.String()
+}

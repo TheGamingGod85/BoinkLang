@@ -20,6 +20,7 @@ const (
 	IDENT TokenType = "IDENT"
 	INT   TokenType = "INT"
 	FLOAT TokenType = "FLOAT"
+	STRING   TokenType = "STRING"
 
 	// Operators
 	PLUS     TokenType = "+"
@@ -28,6 +29,8 @@ const (
 	BANG     TokenType = "!"
 	ASTERISK TokenType = "*"
 	SLASH    TokenType = "/"
+	INCREMENT TokenType = "++"
+	DECREMENT TokenType = "--"
 
 	LT  TokenType = "<"
 	GT  TokenType = ">"
@@ -58,8 +61,6 @@ const (
 	IF       TokenType = "IF"
 	ELSE     TokenType = "ELSE"
 	RETURN   TokenType = "RETURN"
-	STRING   TokenType = "STRING"
-
 	// Comments
 	COMMENT TokenType = "COMMENT"
 )
