@@ -127,17 +127,16 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		val := Eval(node.Value, env)
 		if isError(val) {
 			return val
-		}
+		}	
 		if _, ok := env.Get(node.Name.Value); !ok {
-			return newError("%s", "identifier not found: "+node.Name.Value)
+			return newError("%s", "identifier not found: " + node.Name.Value)
 		}
-
+	
 		env.Set(node.Name.Value, val)
 		return val
-	case *ast.IncrementDecrementStatement:
-		return evalIncrementDecrement(node, env)
+	
 	}
-
+	
 	return nil
 }
 
@@ -402,6 +401,23 @@ func evalStringInfixExpression(operator string, left, right object.Object) objec
 	}
 }
 
+// func evalInfixExpression(operator string, left, right object.Object) object.Object {
+// 	switch {
+// 	case left.Type() == object.INTEGER_OBJ && right.Type() == object.INTEGER_OBJ:
+// 		return evalIntegerInfixExpression(operator, left, right)
+// 	case left.Type() == object.STRING_OBJ && right.Type() == object.STRING_OBJ:
+// 		return evalStringInfixExpression(operator, left, right)
+// 	case operator == "==":
+// 		return nativeBoolToBooleanObject(left == right)
+// 	case operator == "!=":
+// 		return nativeBoolToBooleanObject(left != right)
+// 	case left.Type() != right.Type():
+// 		return newError("type mismatch: %s %s %s", left.Type(), operator, right.Type())
+// 	default:
+// 		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+// 	}
+// }
+
 func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Object {
 	condition := Eval(ie.Condition, env)
 	if isError(condition) {
@@ -448,35 +464,5 @@ func evalIndexExpression(left, index object.Object) object.Object {
 		return evalHashIndexExpression(left, index)
 	default:
 		return newError("index operator not supported: %s", left.Type())
-	}
-}
-
-func evalIncrementDecrement(node *ast.IncrementDecrementStatement, env *object.Environment) object.Object {
-	val, ok := env.Get(node.Name.Value)
-	if !ok {
-		return newError("%s", "identifier not found: "+node.Name.Value)
-	}
-
-	switch val := val.(type) {
-	case *object.Integer:
-		if node.Operator == "++" {
-			val.Value++
-		} else {
-			val.Value--
-		}
-		env.Set(node.Name.Value, val)
-		return val
-
-	case *object.Float:
-		if node.Operator == "++" {
-			val.Value += 1.0
-		} else {
-			val.Value -= 1.0
-		}
-		env.Set(node.Name.Value, val)
-		return val
-
-	default:
-		return newError("cannot increment/decrement non-numeric type")
 	}
 }
