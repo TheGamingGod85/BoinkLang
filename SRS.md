@@ -56,17 +56,41 @@
 The purpose of this Software Requirements Specification (SRS) document is to provide a detailed, industry-standard description of the requirements for the Indian Sign Language Translator App. This app will translate user-provided speech or text into dynamic 3D hand-model visualizations representing Indian Sign Language (ISL). This document serves as a reference for project stakeholders, designers, developers, and testers.
 
 ### 1.2 Scope
-The Indian Sign Language Translator App is a cross-platform mobile application designed to:
-- Capture input via the device microphone (speech) or keyboard (text).
-- Process and map inputs to corresponding ISL gestures.
-- Render smooth, lifelike 3D hand animations representing ISL signs.
-- Support on-device inference for offline use and cloud-based processing for enhanced accuracy.
+The Indian Sign Language (ISL) Translator App is a cross-platform mobile application designed to facilitate communication between hearing individuals and the deaf or hard-of-hearing (HoH) community by translating spoken or typed text into Indian Sign Language through animated 3D hand gestures. The application aims to foster inclusivity and enhance accessibility for ISL users.
 
-Key deliverables include:
-- Mobile app (Android & iOS)  
-- Backend translation engine & API  
-- 3D hand-model libraries & animation assets  
-- Documentation: User Guide, API Reference, Developer Guide  
+This system encompasses the following components:
+- **Speech and Text Input Modules**: To capture and preprocess user input.
+- **Natural Language Processing (NLP) Engine**: To interpret and convert inputs to ISL gesture codes.
+- **3D Animation Module**: To render and animate lifelike hand gestures that represent ISL signs.
+- **Mobile Interface**: Intuitive UI for users to interact with the system on Android and iOS platforms.
+- **Backend Infrastructure**: Cloud services and APIs supporting translation processing, user analytics, and content updates.
+
+**Key Deliverables**:
+- Functional mobile application (Android & iOS)
+- NLP-driven translation backend with API interfaces
+- Comprehensive 3D gesture asset library
+- User and developer documentation including setup guides and API references
+
+**Out-of-Scope Elements**:
+- Real-time video-to-sign interpretation
+- Multi-language support beyond Indian Sign Language
+- Haptic feedback or tactile output features
+- Integration with wearable assistive technologies (e.g., smart gloves)
+
+#### Audience
+
+This document is intended for the following stakeholders:
+
+| Stakeholder Type         | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| **Developers**           | Responsible for implementing application features and maintaining codebase. |
+| **Designers**            | Contribute to the UI/UX and gesture animation system.                       |
+| **Test Engineers**       | Validate software functionality and non-functional attributes.              |
+| **Project Managers**     | Oversee the development lifecycle and track deliverables.                   |
+| **Accessibility Advocates** | Provide domain expertise to ensure ISL accuracy and inclusivity.         |
+| **End Users**            | Individuals who will utilize the app for real-world communication, including learners and native ISL users. |
+| **Regulatory/Compliance Personnel** | Ensure adherence to accessibility standards and data privacy regulations. |
+ 
 
 ### 1.3 Definitions, Acronyms, and Abbreviations
 | Term              | Definition                                                                 |
@@ -118,8 +142,9 @@ The ISL Translator App is a self-contained mobile solution, integrating speech/t
 | Administrator        | Manages cloud resources, analytics, user accounts.                                              |
 
 ### 2.4 Operating Environment
-- **Mobile OS**: Android 8.0+; iOS 12.0+.  
-- **Backend**: Node.js server hosted on AWS or similar.  
+- **Mobile OS**: Android 8.0+; iOS 12.0+.
+- **Frontend**: Flutter framework for building multi-OS binaries (Android, iOS, Web, Desktop).
+- **Backend**: FastAPI (Python) server hosted on AWS or similar.  
 - **3D Engine**: Unity3D or Unreal Engine integrated via SDK.  
 - **Machine Learning**: TensorFlow Lite for on-device models; TensorFlow Serving for cloud.
 
@@ -159,13 +184,13 @@ The ISL Translator App is a self-contained mobile solution, integrating speech/t
 ### 3.2 Functional Requirements
 | ID    | Requirement                                                                                               |
 |-------|-----------------------------------------------------------------------------------------------------------|
-| FR-1  | The system shall capture speech input and convert it to text with ≥90% accuracy in quiet environments.   |
+| FR-1  | The system shall capture speech input and convert it to text with ≥90% accuracy in quiet environments.     |
 | FR-2  | The system shall accept text input up to 500 characters.                                                  |
 | FR-3  | The system shall translate recognized text into a sequence of ISL gesture codes within 2 seconds.         |
-| FR-4  | The system shall render each gesture in 3D at 60 FPS on supported devices.                                 |
+| FR-4  | The system shall render each gesture in 3D at 60 FPS on supported devices.                                |
 | FR-5  | The system shall allow users to replay, pause, or rewind gesture animations.                              |
 | FR-6  | The system shall cache the last 50 translations for offline access.                                       |
-| FR-7  | The system shall log translation errors and send anonymized analytics to the backend server.               |
+| FR-7  | The system shall log translation errors and send anonymized analytics to the backend server.              |
 
 ### 3.3 Non-functional Requirements
 
